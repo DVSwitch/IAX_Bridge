@@ -1,0 +1,22 @@
+[Unit]
+Description=IAX Bridge Service
+# Description=Place this file in /lib/systemd/system
+# Description=N4IRS 04/30/2020
+
+After=netcheck.service
+Requires=netcheck.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=3
+StandardOutput=null
+WorkingDirectory=/opt/IAX_Bridge
+ExecStartPre = /bin/sh -c 'echo "Starting IAX_Bridge: [`date +%%T.%%3N`]" >> /var/log/netcheck'
+ExecStart=/opt/IAX_Bridge/IAX_Bridge /opt/IAX_Bridge/IAX_Bridge.ini
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
